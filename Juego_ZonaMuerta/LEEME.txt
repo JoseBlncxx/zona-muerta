@@ -1,0 +1,44 @@
+=============================================
+          ZONA MUERTA  -  Versión 2.0
+   Juego de zombis con vista desde arriba
+=============================================
+
+CÓMO JUGAR
+1. Si descargaste ZonaMuerta.zip, primero haz clic derecho -> "Extraer todo".
+2. Haz doble clic en el archivo  index.html
+   (se abre en Chrome, Edge o Firefox).
+3. Presiona F11 para pantalla completa.
+4. Clic en JUGAR. ¡Sube el volumen!
+
+No necesitas instalar nada ni tener Internet.
+No borres core.js, mapas.js ni game.js: deben estar junto a index.html.
+
+CONTROLES (PC)
+  W A S D / Flechas ... Moverse
+  Mouse ............... Apuntar
+  Clic izquierdo ...... Disparar
+  Shift ............... Activar/desactivar correr
+                        (si se acaba la energía vuelves a caminar)
+  R ................... Recargar
+  1 a 7 / Rueda ....... Cambiar arma
+  Q ................... Usar botiquín
+  E ................... Usar adrenalina
+  T ................... Autoapuntado sí/no
+  P / Esc ............. Pausa
+  M ................... Silenciar
+
+EN EL CELULAR (PWA)
+  Joystick a la izquierda, FUEGO a la derecha (arrastra para apuntar a mano),
+  CORRER, R = recargar, ⇄ = cambiar arma, 🩹 botiquín, ⚡ adrenalina, II = pausa.
+  Para instalarlo: sube esta carpeta a un hosting https (Netlify, GitHub Pages),
+  abre el enlace en el celular y elige "Instalar app" / "Agregar a inicio".
+  Después funciona sin Internet.
+
+CONTENIDO
+  9 niveles en 5 mapas, cada uno con su jefe final (6 jefes distintos).
+  7 armas: pistola, escopeta, rifle, francotirador, lanzallamas,
+  lanzagranadas y minigun.
+  Zombis: normal, corredor, tanque (embiste), vomitador (lanza ácido)
+  y perros infectados (atacan en manada).
+  Tienda: gana monedas y compra armas, armaduras, botiquines,
+  adrenalina, más vida y hasta 2 compañeros que pelean contigo.

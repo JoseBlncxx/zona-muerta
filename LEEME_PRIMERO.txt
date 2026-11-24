@@ -1,0 +1,34 @@
+==========================================================
+   PORTAFOLIO DE EVIDENCIAS - Caso práctico: ZONA MUERTA
+==========================================================
+
+QUÉ HAY EN ESTA CARPETA
+  Juego_ZonaMuerta\          El juego. Doble clic en index.html para jugar.
+  ZonaMuerta.zip             El juego comprimido (versión "para descargar").
+  Portafolio\
+    1_Instrucciones_de_descarga.html   -> Evidencia 1: instrucciones de descarga
+    2_Diseno_de_empaque.html           -> Evidencia 2: diseño de empaque
+    img\                               -> capturas usadas en los documentos
+
+PASOS PARA ARMAR TU ENTREGA
+  1. Abre "1_Instrucciones_de_descarga.html" en Chrome o Edge.
+     Escribe tus datos en la portada (clic en los campos subrayados).
+     Ctrl + P -> "Guardar como PDF" (o imprímelo).
+
+  2. Abre "2_Diseno_de_empaque.html".
+     Ctrl + P -> Tamaño Carta, Escala 100%, activa "Gráficos de fondo".
+     Imprime a color, recorta por las líneas punteadas y arma:
+       - Caja de CD/DVD: portada al frente, contraportada atrás.
+       - Etiqueta del CD (papel adhesivo).
+       - Tarjeta y etiquetas para la memoria USB.
+
+  3. Medio de almacenamiento (USB o CD): copia en él
+       - la carpeta Juego_ZonaMuerta
+       - ZonaMuerta.zip
+       - el PDF de las instrucciones
+     Si usas USB, ponle de nombre "ZONA MUERTA"
+     (clic derecho en la unidad -> Cambiar nombre).
+
+  4. Opcional (descarga por Internet): sube ZonaMuerta.zip a Google Drive,
+     comparte el enlace ("Cualquier persona con el enlace") y pégalo
+     en el documento de instrucciones, Opción B.

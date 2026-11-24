@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Diseño de empaque - Zona Muerta</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 1cm; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #d8d8d2; margin: 0; padding: 20px; color: #111; }
+  .sheet { background: #fff; width: 21.59cm; min-height: 27.94cm; margin: 0 auto 24px; padding: 1cm; box-shadow: 0 2px 14px rgba(0,0,0,.2); position: relative; }
+  .sheet h3 { margin: 0 0 .25cm; font-size: 13px; color: #555; font-weight: normal; }
+  .help { max-width: 21.59cm; margin: 0 auto 18px; background: #fff8d0; border: 1px dashed #c9a800; padding: 10px 14px; border-radius: 6px; font-size: 14px; }
+  .cut { outline: 1px dashed #888; outline-offset: 0; position: relative; }
+  .lbl { font-size: 10px; color: #777; margin: .15cm 0 .5cm; }
+  .title { font-family: 'Creepster', Impact, 'Arial Black', sans-serif; color: #a8e04d; letter-spacing: .08em; line-height: .9;
+    text-shadow: 0 0 .25cm rgba(120,200,40,.7), .06cm .06cm 0 #4a0000; }
+  .oswald { font-family: 'Oswald', 'Arial Narrow', Arial, sans-serif; }
+  .blood { color: #e02424; }
+  [contenteditable] { outline: 1px dashed rgba(255,220,0,.6); }
+
+  /* ---------- PORTADA 12 x 12 cm ---------- */
+  .front { width: 12cm; height: 12cm; overflow: hidden; color: #fff;
+    background: linear-gradient(180deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,0) 55%, rgba(0,0,0,0) 80%, rgba(0,0,0,.85) 100%), url(img/arte_portada.jpg) 55% 50%/cover; }
+  .front .top { position: absolute; top: .35cm; left: .4cm; right: .4cm; display: flex; justify-content: space-between; font-size: 8px; letter-spacing: .1em; }
+  .front .pc { background: #111; border: 1px solid #fff; padding: 1px 6px; font-weight: bold; }
+  .front .t { position: absolute; left: 0; right: 0; top: 1.05cm; text-align: center; font-size: 1.85cm; }
+  .front .tag { position: absolute; left: 0; right: 0; top: 4.55cm; text-align: center; font-size: 11px; letter-spacing: .35em; font-weight: 700; text-shadow: 0 0 4px #000; }
+  .front .bottom { position: absolute; bottom: .35cm; left: .4cm; right: .4cm; display: flex; justify-content: space-between; align-items: flex-end; }
+  .rating { width: 1.15cm; border: 2px solid #fff; background: #000; text-align: center; font-weight: 900; line-height: 1; padding: 2px 0; }
+  .rating b { display: block; font-size: 16px; } .rating small { font-size: 5px; display: block; letter-spacing: .05em; }
+  .studio { font-size: 8px; text-align: right; opacity: .9; letter-spacing: .1em; }
+
+  /* ---------- CONTRAPORTADA 15.1 x 11.8 cm con lomos de 0.65 cm ---------- */
+  .back { width: 15.1cm; height: 11.8cm; display: flex; background: #0d120b; color: #e8e8e8; overflow: hidden; }
+  .spine { width: .65cm; background: #1a2414; display: flex; align-items: center; justify-content: center; border-left: 1px dashed #666; border-right: 1px dashed #666; }
+  .spine span { writing-mode: vertical-rl; font-size: 11px; white-space: nowrap; letter-spacing: .15em; }
+  .spine.l span { transform: rotate(180deg); }
+  .back .main { flex: 1; padding: .4cm .45cm; display: flex; flex-direction: column; gap: .18cm; position: relative;
+    background: radial-gradient(ellipse at top, #22341a, #0d120b 70%); }
+  .back .hd { font-size: 15px; font-weight: 700; color: #a8e04d; letter-spacing: .05em; }
+  .back p { font-size: 9.5px; line-height: 1.45; margin: 0; }
+  .back .shots { display: flex; gap: .15cm; margin: .15cm 0; }
+  .back .shots img { width: 33%; height: 3.3cm; object-fit: cover; border: 1px solid #a8e04d; }
+  .back ul { margin: 0; padding-left: .4cm; font-size: 9.5px; line-height: 1.6; columns: 2; }
+  .back li::marker { color: #e02424; }
+  .back .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: .25cm; }
+  .req { font-size: 6.4px; line-height: 1.35; border: 1px solid #555; padding: .1cm .15cm; flex: 1; color: #bbb; }
+  .req b { color: #fff; }
+  .barcode { background: #fff; padding: .08cm .12cm .03cm; color: #000; text-align: center; font-size: 6px; font-family: monospace; }
+  .barcode i { display: inline-block; height: .7cm; background: #000; margin-right: 1px; vertical-align: bottom; }
+
+  /* ---------- ETIQUETA CD 11.7 cm ---------- */
+  .cd { width: 11.7cm; height: 11.7cm; border-radius: 50%; overflow: hidden; position: relative; outline: none; border: 1px dashed #888; color: #fff;
+    background: radial-gradient(circle, transparent 2.05cm, rgba(0,0,0,.35) 2.1cm, rgba(0,0,0,.25) 3.2cm, rgba(0,0,0,.75) 5.85cm), url(img/arte_cd.jpg) center/cover; }
+  .cd .hole { position: absolute; left: 50%; top: 50%; width: 4.1cm; height: 4.1cm; margin: -2.05cm 0 0 -2.05cm; border-radius: 50%; background: #fff; border: 1px dashed #888; }
+  .cd .t { position: absolute; top: 1.35cm; left: 0; right: 0; text-align: center; font-size: 1.15cm; }
+  .cd .info { position: absolute; bottom: 1.15cm; left: 0; right: 0; text-align: center; font-size: 8px; letter-spacing: .2em; }
+  .cd .side { position: absolute; top: 50%; transform: translateY(-50%); font-size: 8px; letter-spacing: .1em; text-align: center; width: 2.6cm; }
+
+  /* ---------- ETIQUETAS USB ---------- */
+  .usbgrid { display: flex; flex-wrap: wrap; gap: .5cm; }
+  .usb { width: 5cm; height: 1.9cm; background: linear-gradient(90deg, #0d120b, #22341a); color: #fff; display: flex; align-items: center; gap: .2cm; padding: 0 .25cm; overflow: hidden; }
+  .usb .t { font-size: .62cm; }
+  .usb small { font-size: 6px; letter-spacing: .15em; display: block; color: #ccc; }
+  .usbbox { width: 6cm; height: 9cm; color: #fff; overflow: hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.2) 45%, rgba(0,0,0,.92) 80%), url(img/arte_usb.jpg) center/cover; }
+  .usbbox .t { position: absolute; left: 0; right: 0; top: 5.0cm; text-align: center; font-size: 1cm; }
+  .usbbox .tag { position: absolute; left: 0; right: 0; top: 7.0cm; text-align: center; font-size: 7px; letter-spacing: .3em; font-weight: bold; }
+  .usbbox .bottom { position: absolute; left: .3cm; right: .3cm; bottom: .3cm; display: flex; justify-content: space-between; align-items: flex-end; font-size: 6px; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: 0; page-break-after: always; }
+    .help { display: none; }
+    [contenteditable] { outline: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="help">✂️ <b>Cómo usarlo:</b> imprime con <b>Ctrl + P</b> → Tamaño <b>Carta</b>, Escala <b>100% (Tamaño real)</b>, activa <b>"Gráficos de fondo"</b> en Más opciones.
+Recorta por las líneas punteadas. Los textos con borde amarillo se pueden editar haciendo clic (nombre del estudio, etc.). Este aviso no se imprime.<br>
+Para la etiqueta del CD usa papel adhesivo; para la USB, papel adhesivo o cartulina.</div>
+
+<!-- =============== HOJA 1: portada + etiqueta CD =============== -->
+<div class="sheet">
+  <h3>HOJA 1 — Portada para caja de CD/DVD (12 × 12 cm) · Etiqueta del disco (Ø 11.7 cm)</h3>
+
+  <div class="cut front">
+    <div class="top oswald"><span class="pc">PC · NAVEGADOR</span><span>JUEGO DE ACCIÓN Y SUPERVIVENCIA</span></div>
+    <div class="t title">ZONA<br>MUERTA</div>
+    <div class="tag oswald blood">SOBREVIVE A LA INVASIÓN</div>
+    <div class="bottom">
+      <div class="rating oswald"><b>+13</b><small>ADOLESCENTES</small></div>
+      <div class="studio oswald" contenteditable="true">UN JUEGO DE<br><b>ESTUDIO INDEPENDIENTE</b></div>
+    </div>
+  </div>
+  <div class="lbl">Portada — va al frente de la caja (cortar por la línea punteada)</div>
+
+  <div class="cd">
+    <div class="t title">ZONA MUERTA</div>
+    <div class="side oswald" style="left:.9cm">9 NIVELES<br>5 MAPAS</div>
+    <div class="side oswald" style="right:.9cm">7 ARMAS<br>9 JEFES</div>
+    <div class="hole"></div>
+    <div class="info oswald">PC Y CELULAR · VERSIÓN 2.0 · 2026</div>
+  </div>
+  <div class="lbl">Etiqueta del disco — recortar el círculo exterior y el círculo central</div>
+</div>
+
+<!-- =============== HOJA 2: contraportada =============== -->
+<div class="sheet">
+  <h3>HOJA 2 — Contraportada con lomos (15.1 × 11.8 cm). Doblar por las líneas de los lomos.</h3>
+  <div class="cut back">
+    <div class="spine l"><span class="oswald"><b class="title" style="font-size:12px">ZONA MUERTA</b> &nbsp;·&nbsp; PC</span></div>
+    <div class="main">
+      <div class="hd oswald">LA CIUDAD CAYÓ. TÚ NO.</div>
+      <p>Un virus desconocido convirtió a la población en muertos vivientes. Armado con lo que encuentres, recorre calles abandonadas,
+        bosques oscuros, un laboratorio secreto, una base militar y un cementerio maldito. Elimina a las hordas, recoge botiquines y munición,
+        y enfréntate al temible <b class="blood">Rey Zombi</b> para salvar lo que queda de la humanidad.</p>
+      <div class="shots">
+        <img src="img/captura_ciudad.jpg"><img src="img/captura_laboratorio.jpg"><img src="img/captura_base.jpg">
+      </div>
+      <ul>
+        <li><b>9 niveles</b> con un <b>jefe</b> en cada uno</li>
+        <li><b>7 armas</b>, incluye lanzallamas y minigun</li>
+        <li><b>Perros infectados</b> y zombis que vomitan</li>
+        <li><b>Tienda:</b> armaduras, adrenalina y más</li>
+        <li><b>Compañeros</b> que pelean contigo</li>
+        <li>Juega en PC o <b>instálalo en tu celular</b></li>
+      </ul>
+      <div class="foot">
+        <div class="req"><b>REQUISITOS:</b> Windows 7/10/11, macOS o Linux · Navegador Chrome, Edge o Firefox actualizado ·
+          2 GB RAM · 1 MB de espacio · Teclado y mouse · Bocinas o audífonos. <b>No requiere instalación ni Internet.</b></div>
+        <div class="rating oswald" style="background:#000"><b>+13</b><small>VIOLENCIA DE FANTASÍA</small></div>
+        <div class="barcode" id="bc"></div>
+      </div>
+    </div>
+    <div class="spine"><span class="oswald"><b class="title" style="font-size:12px">ZONA MUERTA</b> &nbsp;·&nbsp; <span contenteditable="true">ESTUDIO INDEPENDIENTE</span></span></div>
+  </div>
+  <div class="lbl">Contraportada — va dentro de la bandeja trasera de la caja</div>
+</div>
+
+<!-- =============== HOJA 3: USB =============== -->
+<div class="sheet">
+  <h3>HOJA 3 — Empaque para memoria USB: tarjeta frontal (6 × 9 cm) y etiquetas adhesivas (5 × 1.9 cm)</h3>
+  <div style="display:flex; gap:.8cm; align-items:flex-start">
+    <div>
+      <div class="cut usbbox">
+        <div class="top oswald" style="position:absolute;top:.25cm;left:.3cm;font-size:6px;letter-spacing:.1em"><span class="pc" style="background:#111;border:1px solid #fff;padding:1px 4px">EDICIÓN USB</span></div>
+        <div class="t title">ZONA<br>MUERTA</div>
+        <div class="tag oswald blood">SOBREVIVE A LA INVASIÓN</div>
+        <div class="bottom oswald">
+          <div class="rating" style="width:.9cm"><b style="font-size:12px">+13</b></div>
+          <div style="text-align:right">INCLUYE JUEGO COMPLETO<br>Y MANUAL DE INSTALACIÓN</div>
+        </div>
+      </div>
+      <div class="lbl">Tarjeta frontal para el estuche o bolsita de la USB</div>
+    </div>
+    <div>
+      <div class="usbgrid">
+        <div class="cut usb"><div><div class="title t">ZONA MUERTA</div><small class="oswald">PC Y CELULAR · V2.0</small></div></div>
+        <div class="cut usb"><div><div class="title t">ZONA MUERTA</div><small class="oswald">PC Y CELULAR · V2.0</small></div></div>
+        <div class="cut usb"><div><div class="title t">ZONA MUERTA</div><small class="oswald">PC Y CELULAR · V2.0</small></div></div>
+        <div class="cut usb"><div><div class="title t">ZONA MUERTA</div><small class="oswald">PC Y CELULAR · V2.0</small></div></div>
+      </div>
+      <div class="lbl">Etiquetas para pegar en la memoria USB</div>
+      <div style="font-size:12px;color:#444;border:1px solid #ccc;padding:.3cm;border-radius:4px;max-width:10.5cm">
+        <b>Contenido de la USB:</b><br>
+        📁 Juego_ZonaMuerta (index.html, core.js, mapas.js, game.js, archivos de la app y LEEME.txt)<br>
+        📦 ZonaMuerta.zip (copia comprimida para compartir)<br>
+        📄 Instrucciones de descarga (PDF)
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // código de barras decorativo
+  const bc = document.getElementById('bc'); let h = '';
+  const pattern = [1,2,1,1,3,1,2,1,1,2,3,1,1,2,1,3,1,1,2,1,2,1,1,3,2,1,1,2,1,1,3,1,2];
+  pattern.forEach((w, i) => h += `<i style="width:${w}px;${i % 2 ? 'background:#fff' : ''}"></i>`);
+  bc.innerHTML = h + '<br>7 501234 567890';
+</script>
+</body>
+</html>

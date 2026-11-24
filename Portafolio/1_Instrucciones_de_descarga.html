@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Instrucciones de descarga - Zona Muerta</title>
+<style>
+  @page { size: letter; margin: 1.8cm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #222; max-width: 820px; margin: 0 auto; padding: 24px; line-height: 1.55; background: #f4f4f0; }
+  .page { background: #fff; padding: 48px 56px; margin-bottom: 28px; box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+  .tip-edit { background: #fff8d0; border: 1px dashed #c9a800; padding: 10px 14px; border-radius: 6px; font-size: 14px; }
+  [contenteditable] { border-bottom: 1px dashed #9bd14b; padding: 0 4px; min-width: 200px; display: inline-block; }
+  .cover { text-align: center; min-height: 860px; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover h1 { font-size: 64px; letter-spacing: 6px; color: #3d6b12; margin: 10px 0 0; }
+  .cover .tag { color: #a22; font-weight: bold; letter-spacing: 3px; }
+  .cover img { width: 100%; border-radius: 8px; border: 3px solid #3d6b12; margin: 24px 0; }
+  .cover table { margin: 0 auto; font-size: 17px; text-align: left; }
+  .cover td { padding: 6px 10px; }
+  h2 { color: #3d6b12; border-bottom: 3px solid #9bd14b; padding-bottom: 6px; margin-top: 34px; }
+  h3 { color: #333; margin-bottom: 6px; }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 10px 0 10px 56px; border-bottom: 1px solid #eee; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 10px; width: 38px; height: 38px; border-radius: 50%;
+    background: #3d6b12; color: #fff; font-weight: bold; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+  code, .file { background: #eef3e6; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; font-size: 14px; }
+  table.t { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  table.t th { background: #3d6b12; color: #fff; text-align: left; padding: 8px 10px; }
+  table.t td { border-bottom: 1px solid #ddd; padding: 7px 10px; }
+  .box { background: #eef6e2; border-left: 5px solid #3d6b12; padding: 12px 16px; margin: 14px 0; }
+  .warn { background: #fdecea; border-left: 5px solid #c0392b; padding: 12px 16px; margin: 14px 0; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .shots figure { margin: 0; }
+  .shots img { width: 100%; border-radius: 6px; border: 2px solid #ccc; }
+  .shots figcaption { font-size: 13px; color: #555; text-align: center; }
+  pre.tree { background: #1e2a16; color: #cfe8a8; padding: 14px 18px; border-radius: 6px; font-size: 14px; }
+  @media print {
+    body { background: #fff; padding: 0; max-width: none; }
+    .page { box-shadow: none; padding: 0; margin: 0; page-break-after: always; }
+    .tip-edit { display: none; }
+    [contenteditable] { border: none; }
+    h2 { page-break-after: avoid; }
+    figure, .box, .warn, table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tip-edit">✏️ <b>Antes de imprimir:</b> haz clic en los campos subrayados de la portada para escribir tu nombre, grupo, etc.
+Luego presiona <b>Ctrl + P</b> y elige <b>"Guardar como PDF"</b> o tu impresora. (Este aviso no se imprime.)</div>
+<br>
+
+<!-- ===================== PORTADA ===================== -->
+<div class="page cover">
+  <div>
+    <p style="font-size:18px;margin:0" contenteditable="true">Nombre de la escuela</p>
+    <p style="margin:4px 0 30px;color:#555">Portafolio de evidencias — Caso práctico: videojuego</p>
+    <h1>ZONA MUERTA</h1>
+    <div class="tag">MANUAL DE DESCARGA E INSTALACIÓN</div>
+    <img src="img/arte_portada.jpg" alt="Captura del juego">
+  </div>
+  <table>
+    <tr><td><b>Alumno(a):</b></td><td contenteditable="true">&nbsp;</td></tr>
+    <tr><td><b>Grupo:</b></td><td contenteditable="true">&nbsp;</td></tr>
+    <tr><td><b>Materia:</b></td><td contenteditable="true">&nbsp;</td></tr>
+    <tr><td><b>Docente:</b></td><td contenteditable="true">&nbsp;</td></tr>
+    <tr><td><b>Fecha:</b></td><td contenteditable="true">&nbsp;</td></tr>
+  </table>
+</div>
+
+<!-- ===================== CONTENIDO ===================== -->
+<div class="page">
+  <h2>Índice</h2>
+  <ol>
+    <li>Descripción del caso práctico</li>
+    <li>Requisitos del sistema</li>
+    <li>Contenido del paquete</li>
+    <li>Instrucciones de descarga (USB / CD / Internet)</li>
+    <li>Cómo ejecutar el juego</li>
+    <li>Controles y cómo jugar</li>
+    <li>Solución de problemas</li>
+    <li>Desinstalación</li>
+  </ol>
+
+  <h2>1. Descripción del caso práctico</h2>
+  <p><b>Zona Muerta</b> es un videojuego de acción y supervivencia con <b>vista desde arriba</b> (top-down) en tercera persona.
+  El jugador debe abrirse paso a través de una invasión zombi en <b>9 niveles</b> distribuidos en <b>5 mapas diferentes</b>,
+  usando <b>7 armas</b>, comprando equipo con las <b>monedas</b> que gana y venciendo a un <b>jefe al final de cada nivel</b>.</p>
+  <table class="t">
+    <tr><th>Característica</th><th>Detalle</th></tr>
+    <tr><td>Género</td><td>Acción / Disparos / Supervivencia</td></tr>
+    <tr><td>Perspectiva</td><td>Cenital (vista desde arriba), tercera persona</td></tr>
+    <tr><td>Mapas</td><td>Ciudad Abandonada, Bosque Sombrío, Laboratorio X-13, Base Militar, Cementerio Olvidado</td></tr>
+    <tr><td>Armas</td><td>Pistola (munición infinita), Escopeta, Rifle de Asalto, Francotirador y las especiales: Lanzallamas, Lanzagranadas y Minigun</td></tr>
+    <tr><td>Enemigos</td><td>Zombi normal, corredor, tanque (embiste), vomitador (lanza ácido) y perros infectados (en manada)</td></tr>
+    <tr><td>Jefes</td><td>El Carnicero, Alfa Rabioso, Experimento X-13, Sargento Podrido, El Sepulturero y el Rey Zombi</td></tr>
+    <tr><td>Tienda</td><td>Armas, armaduras (3 niveles), vida máxima, botiquines, adrenalina y hasta 2 compañeros que pelean contigo</td></tr>
+    <tr><td>Sonido</td><td>Disparos de cada arma, recarga, daño, armadura, gruñidos, ladridos, vómito, explosiones y latidos con poca vida</td></tr>
+    <tr><td>Tecnología</td><td>HTML5 + JavaScript (se ejecuta en el navegador)</td></tr>
+    <tr><td>Clasificación sugerida</td><td>Adolescentes (violencia de fantasía)</td></tr>
+  </table>
+  <div class="shots">
+    <figure><img src="img/captura_ciudad.jpg"><figcaption>Nivel 2 — Ciudad Abandonada</figcaption></figure>
+    <figure><img src="img/captura_bosque.jpg"><figcaption>Nivel 4 — Bosque Sombrío</figcaption></figure>
+    <figure><img src="img/captura_laboratorio.jpg"><figcaption>Nivel 6 — Laboratorio X-13</figcaption></figure>
+    <figure><img src="img/captura_base.jpg"><figcaption>Nivel 7 — Base Militar</figcaption></figure>
+  </div>
+
+  <h2>2. Requisitos del sistema</h2>
+  <table class="t">
+    <tr><th>Componente</th><th>Mínimo</th><th>Recomendado</th></tr>
+    <tr><td>Sistema operativo</td><td>Windows 7, macOS, Linux, ChromeOS, Android 8 o iOS 16.4</td><td>Windows 10 / 11 · Android 12+</td></tr>
+    <tr><td>Navegador</td><td>Chrome, Edge, Firefox u Opera actualizado</td><td>Google Chrome o Microsoft Edge</td></tr>
+    <tr><td>Procesador</td><td>Doble núcleo 1.5 GHz</td><td>Cuatro núcleos 2.0 GHz</td></tr>
+    <tr><td>Memoria RAM</td><td>2 GB</td><td>4 GB o más</td></tr>
+    <tr><td>Espacio en disco</td><td>1 MB</td><td>1 MB</td></tr>
+    <tr><td>Controles</td><td colspan="2">Teclado y mouse · Bocinas o audífonos para el sonido</td></tr>
+    <tr><td>Internet</td><td colspan="2"><b>No es necesario</b> para jugar</td></tr>
+  </table>
+  <div class="box">✅ <b>No requiere instalar ningún programa.</b> El juego funciona directamente en el navegador web que ya tiene la computadora.</div>
+
+  <h2>3. Contenido del paquete</h2>
+  <pre class="tree">ZonaMuerta.zip
+└── Juego_ZonaMuerta/
+    ├── index.html      ← archivo para abrir el juego
+    ├── core.js         ← sonidos y funciones básicas (no borrar)
+    ├── mapas.js        ← los 5 mapas del juego (no borrar)
+    ├── game.js         ← programa del juego: armas, zombis, jefes, tienda (no borrar)
+    ├── manifest.json   ← datos de la app para instalarla en el celular (PWA)
+    ├── sw.js           ← permite jugar sin Internet
+    ├── icon-192.png    ← ícono de la app
+    ├── icon-512.png    ← ícono de la app (grande)
+    └── LEEME.txt       ← instrucciones rápidas</pre>
+
+  <h2>4. Instrucciones de descarga</h2>
+
+  <h3>Opción A — Desde la memoria USB o CD incluido en el empaque</h3>
+  <ol class="steps">
+    <li>Conecta la memoria USB a un puerto de la computadora (o inserta el CD en la unidad de disco).</li>
+    <li>Abre el <b>Explorador de archivos</b> (tecla <code>Windows + E</code>) y entra a la unidad <b>"ZONA MUERTA"</b>.</li>
+    <li>Copia la carpeta <span class="file">Juego_ZonaMuerta</span> y pégala en tu <b>Escritorio</b> o en <b>Documentos</b>
+      (clic derecho → <i>Copiar</i>; luego en el Escritorio, clic derecho → <i>Pegar</i>).</li>
+    <li>Espera a que termine de copiarse y retira la USB de forma segura.</li>
+  </ol>
+
+  <h3>Opción B — Desde Internet (Google Drive, OneDrive o página web)</h3>
+  <ol class="steps">
+    <li>Abre el enlace de descarga proporcionado:
+      <span contenteditable="true"><b>https://graceful-peony-41a22a.netlify.app</b></span><br>
+      <small>(o pide el archivo <span class="file">ZonaMuerta.zip</span> si prefieres descargarlo en tu computadora)</small></li>
+    <li>Haz clic en el botón <b>Descargar</b>. El archivo <span class="file">ZonaMuerta.zip</span> se guardará en la carpeta <b>Descargas</b>.</li>
+    <li>Ve a <b>Descargas</b>, haz clic derecho sobre <span class="file">ZonaMuerta.zip</span> y elige <b>"Extraer todo..."</b>.</li>
+    <li>Elige dónde guardarlo (por ejemplo, el Escritorio) y presiona <b>Extraer</b>.</li>
+  </ol>
+  <div class="warn">⚠️ <b>Importante:</b> no abras el juego desde dentro del archivo .zip sin extraerlo, porque el navegador no encontrará el archivo <code>game.js</code>.</div>
+
+  <h3>Opción C — Instalar en el celular como aplicación (PWA)</h3>
+  <p>Zona Muerta es una <b>PWA (Aplicación Web Progresiva)</b>: se instala desde el navegador, aparece con su propio ícono
+  en la pantalla de inicio, se abre en pantalla completa y <b>funciona sin Internet</b> después de abrirla una vez.
+  Incluye joystick táctil, botones en pantalla y autoapuntado.</p>
+  <ol class="steps">
+    <li>Abre en tu celular el enlace del juego:
+      <span contenteditable="true"><b>https://graceful-peony-41a22a.netlify.app</b></span></li>
+    <li><b>Android (Chrome):</b> toca el menú <b>⋮</b> → <b>"Instalar app"</b> o <b>"Agregar a pantalla principal"</b> → <b>Instalar</b>.</li>
+    <li><b>iPhone (Safari):</b> toca el botón <b>Compartir</b> (cuadro con flecha) → <b>"Agregar a inicio"</b> → <b>Agregar</b>.</li>
+    <li>Abre <b>Zona Muerta</b> desde el ícono nuevo de tu pantalla de inicio y gira el celular en horizontal.</li>
+  </ol>
+  <div class="box">💡 <b>Para el desarrollador:</b> el celular solo permite instalar PWAs desde una página <b>https</b>.
+  Para publicarla gratis, sube la carpeta <code>Juego_ZonaMuerta</code> a un hosting como <b>Netlify</b> (arrastrando la carpeta)
+  o <b>GitHub Pages</b>, y comparte el enlace que te den.</div>
+
+  <h2>5. Cómo ejecutar el juego</h2>
+  <ol class="steps">
+    <li>Entra a la carpeta <span class="file">Juego_ZonaMuerta</span>.</li>
+    <li>Haz <b>doble clic</b> en <span class="file">index.html</span>. Se abrirá en tu navegador predeterminado.<br>
+      <small>Si se abre con otro programa: clic derecho → <i>Abrir con</i> → <b>Google Chrome</b> o <b>Microsoft Edge</b>.</small></li>
+    <li>Presiona <b>F11</b> para jugar en pantalla completa (vuelve a presionar F11 para salir).</li>
+    <li>En el menú, haz clic en <b>JUGAR</b>. ¡Sube el volumen para escuchar los efectos de sonido!</li>
+  </ol>
+  <div class="box">💡 <b>Tip:</b> para tener un acceso directo, haz clic derecho sobre <code>index.html</code> → <i>Enviar a</i> → <i>Escritorio (crear acceso directo)</i>.</div>
+
+  <h2>6. Controles y cómo jugar</h2>
+  <table class="t">
+    <tr><th>Tecla / botón</th><th>Acción</th></tr>
+    <tr><td><code>W A S D</code> o flechas</td><td>Moverse</td></tr>
+    <tr><td>Mouse</td><td>Apuntar</td></tr>
+    <tr><td>Clic izquierdo</td><td>Disparar (mantener presionado)</td></tr>
+    <tr><td><code>R</code></td><td>Recargar</td></tr>
+    <tr><td><code>1</code> a <code>7</code> o rueda del mouse</td><td>Cambiar de arma (solo las que compraste)</td></tr>
+    <tr><td><code>Shift</code></td><td>Activar / desactivar correr. Si se acaba la energía vuelves a caminar; presiona Shift otra vez para correr</td></tr>
+    <tr><td><code>Q</code> · <code>E</code></td><td>Usar botiquín · Usar adrenalina</td></tr>
+    <tr><td><code>P</code> o <code>Esc</code></td><td>Pausa</td></tr>
+    <tr><td><code>M</code></td><td>Silenciar / activar sonido</td></tr>
+    <tr><td><code>T</code></td><td>Activar / desactivar autoapuntado</td></tr>
+  </table>
+  <h3>En el celular</h3>
+  <table class="t">
+    <tr><th>Control</th><th>Acción</th></tr>
+    <tr><td>Mitad izquierda de la pantalla</td><td>Joystick para moverse</td></tr>
+    <tr><td>Botón CORRER</td><td>Activa / desactiva correr</td></tr>
+    <tr><td>Botones 🩹 y ⚡</td><td>Usar botiquín y adrenalina</td></tr>
+    <tr><td>Mitad derecha / botón FUEGO</td><td>Disparar (arrastra el dedo para apuntar a mano)</td></tr>
+    <tr><td>Botón R</td><td>Recargar</td></tr>
+    <tr><td>Botón ⇄</td><td>Cambiar de arma</td></tr>
+    <tr><td>Botón II</td><td>Pausa</td></tr>
+  </table>
+  <p><b>Autoapuntado:</b> si está activado (en el menú principal), el personaje apunta solo al zombi más cercano que pueda ver
+  y lo marca con una mira roja. Está activado de inicio y se puede apagar en el menú.</p>
+  <p><b>Objetivo:</b> elimina la cantidad de zombis indicada para pasar de nivel. Recoge <b>botiquines</b> (cruz roja) para recuperar vida
+  y <b>cajas de munición</b> para obtener balas. La escopeta se desbloquea en el nivel 2 y el rifle en el nivel 4.
+  El progreso se guarda automáticamente en el navegador.</p>
+
+  <h2>7. Solución de problemas</h2>
+  <table class="t">
+    <tr><th>Problema</th><th>Solución</th></tr>
+    <tr><td>La pantalla se queda en negro</td><td>Verifica que <code>game.js</code> esté en la misma carpeta que <code>index.html</code> y que extrajiste el .zip.</td></tr>
+    <tr><td>No se escucha el sonido</td><td>Haz clic en un botón del menú (el navegador activa el audio tras el primer clic). Revisa el volumen y presiona <code>M</code>.</td></tr>
+    <tr><td>El juego va lento</td><td>Cierra otras pestañas y programas, o usa Chrome/Edge actualizado.</td></tr>
+    <tr><td>Se abre en el Bloc de notas</td><td>Clic derecho en <code>index.html</code> → Abrir con → Chrome o Edge.</td></tr>
+    <tr><td>Perdí mi progreso</td><td>El progreso se borra si limpias los datos del navegador o usas modo incógnito.</td></tr>
+  </table>
+
+  <h2>8. Desinstalación</h2>
+  <p>Como el juego no se instala en el sistema, basta con <b>eliminar la carpeta</b> <span class="file">Juego_ZonaMuerta</span>
+  (clic derecho → Eliminar) y vaciar la Papelera de reciclaje.</p>
+</div>
+
+</body>
+</html>
