@@ -794,6 +794,7 @@ function drawCrosshair() {
   ctx.stroke(); ctx.fillStyle = '#ff4040'; ctx.fillRect(x - 1, y - 1, 2, 2);
 }
 function render() {
+  if (!VW || !VH) return; // ventana minimizada o sin tamaño
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
   ctx.fillStyle = '#000'; ctx.fillRect(0, 0, VW, VH);
   if (!G.map) return;

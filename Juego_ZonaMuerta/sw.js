@@ -1,6 +1,6 @@
 // Service worker de Zona Muerta: guarda el juego para que funcione sin Internet.
 // Si cambias el juego, sube el número de versión para que los celulares descarguen lo nuevo.
-const CACHE = 'zona-muerta-v3';
+const CACHE = 'zona-muerta-v4';
 const FILES = ['./', 'index.html', 'core.js', 'mapas.js', 'game.js', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
