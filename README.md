@@ -6,7 +6,8 @@ Se juega en el navegador de la PC o se instala en el celular como **app (PWA)**.
 ![Captura del juego](Portafolio/img/captura_bosque.jpg)
 
 ## 🎮 Jugar
-- **En línea:** https://graceful-peony-41a22a.netlify.app
+- **En línea (GitHub Pages):** https://joseblncxx.github.io/zona-muerta/
+- **En línea (Netlify):** https://graceful-peony-41a22a.netlify.app
 - **En tu PC:** descarga este repositorio, entra a `Juego_ZonaMuerta` y abre `index.html` con doble clic.
 - **En tu celular:** abre el enlace en línea y elige **"Instalar app"** (Android) o **"Agregar a inicio"** (iPhone).
 
