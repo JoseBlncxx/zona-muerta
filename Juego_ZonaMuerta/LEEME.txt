@@ -1,5 +1,5 @@
 =============================================
-          ZONA MUERTA  -  Versión 2.0
+          ZONA MUERTA  -  Versión 3.0
    Juego de zombis con vista desde arriba
 =============================================
 
@@ -8,37 +8,43 @@ CÓMO JUGAR
 2. Haz doble clic en el archivo  index.html
    (se abre en Chrome, Edge o Firefox).
 3. Presiona F11 para pantalla completa.
-4. Clic en JUGAR. ¡Sube el volumen!
+4. Elige HISTORIA o SUPERVIVENCIA. ¡Sube el volumen!
 
 No necesitas instalar nada ni tener Internet.
-No borres core.js, mapas.js ni game.js: deben estar junto a index.html.
+No borres ningún archivo .js: deben estar junto a index.html.
 
 CONTROLES (PC)
   W A S D / Flechas ... Moverse
-  Mouse ............... Apuntar
-  Clic izquierdo ...... Disparar
+  Mouse / Clic ........ Apuntar / Disparar
   Shift ............... Activar/desactivar correr
-                        (si se acaba la energía vuelves a caminar)
   R ................... Recargar
-  1 a 7 / Rueda ....... Cambiar arma
-  Q ................... Usar botiquín
-  E ................... Usar adrenalina
-  T ................... Autoapuntado sí/no
-  P / Esc ............. Pausa
-  M ................... Silenciar
+  1 a 9 / Rueda ....... Cambiar arma
+  V / Clic derecho .... Machete
+  G ................... Lanzar granada
+  Q / E ............... Botiquín / Adrenalina
+  C / X / Z ........... Torreta / Mina / Barricada
+  O ................... Orden a compañeros
+  T / M / P ........... Autoapuntado / Silenciar / Pausa
 
 EN EL CELULAR (PWA)
   Joystick a la izquierda, FUEGO a la derecha (arrastra para apuntar a mano),
-  CORRER, R = recargar, ⇄ = cambiar arma, 🩹 botiquín, ⚡ adrenalina, II = pausa.
-  Para instalarlo: sube esta carpeta a un hosting https (Netlify, GitHub Pages),
-  abre el enlace en el celular y elige "Instalar app" / "Agregar a inicio".
-  Después funciona sin Internet.
+  CORRER, 🔪 machete, R recargar, ⇄ cambiar arma, 🩹 ⚡ 💣 objetos,
+  🛠 colocar trampa (⟳ elige cuál), 📢 órdenes, II pausa.
+  Para instalarlo: abre el enlace en línea en el celular y elige
+  "Instalar app" / "Agregar a inicio". Después funciona sin Internet.
 
 CONTENIDO
-  9 niveles en 5 mapas, cada uno con su jefe final (6 jefes distintos).
-  7 armas: pistola, escopeta, rifle, francotirador, lanzallamas,
-  lanzagranadas y minigun.
-  Zombis: normal, corredor, tanque (embiste), vomitador (lanza ácido)
-  y perros infectados (atacan en manada).
-  Tienda: gana monedas y compra armas, armaduras, botiquines,
-  adrenalina, más vida y hasta 2 compañeros que pelean contigo.
+  - Modo Historia: 13 niveles con diálogos y misiones (eliminar, rescatar,
+    defender el generador y escapar en helicóptero).
+  - Modo Supervivencia: oleadas infinitas con récord y jefes cada 5 oleadas.
+  - 9 mapas: ciudad, hospital, bosque, centro comercial, laboratorio,
+    metro, base militar, aeropuerto y cementerio. Lluvia, niebla,
+    tormentas y ciclo de día y noche.
+  - 9 armas (2 legendarias que sueltan los jefes), machete y granadas.
+  - Torretas, minas, barricadas y barriles explosivos.
+  - Zombis: normal, corredor, tanque, vomitador, perro, explosivo,
+    gritón y blindado. 10 jefes con fase de furia.
+  - Tienda: armas, mejoras, armaduras, trampas, skins y compañeros
+    (soldado, médica, francotirador, escopetera y el perro Max).
+  - Experiencia y habilidades, 20 logros, estrellas por nivel y récords.
+  - Música dinámica y menú de opciones (volumen, dificultad, vibración).

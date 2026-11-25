@@ -1,7 +1,7 @@
 {
   "name": "Zona Muerta",
   "short_name": "Zona Muerta",
-  "description": "Juego de zombis con vista desde arriba: 9 niveles, 5 mapas y 3 armas.",
+  "description": "Juego de zombis con vista desde arriba: 13 niveles, 9 mapas, 10 jefes, 9 armas y modo supervivencia.",
   "lang": "es",
   "start_url": "./index.html",
   "scope": "./",

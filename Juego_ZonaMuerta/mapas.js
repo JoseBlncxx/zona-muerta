@@ -1,8 +1,10 @@
 'use strict';
 /* =========================================================
    MAPAS (generados por código, cada uno con su estilo)
-   0 = suelo, 1 = muro/edificio, 2 = objeto (auto, roca, mesa, lápida), 3 = árbol
+   0 = suelo, 1 = muro/edificio, 2 = objeto (auto, roca, mesa, lápida), 3 = árbol,
+   4 = puerta con llave, 5 = barricada de madera (se puede romper)
    ========================================================= */
+const passable = v => v === 0 || v === 4 || v === 5;   // para calcular caminos (los zombis rompen puertas y tablas)
 function makeGrid(w, h) { return { w, h, t: new Uint8Array(w * h) }; }
 function setT(m, x, y, v) { if (x >= 0 && y >= 0 && x < m.w && y < m.h) m.t[y * m.w + x] = v; }
 function getT(m, x, y) { return (x < 0 || y < 0 || x >= m.w || y >= m.h) ? 1 : m.t[y * m.w + x]; }
@@ -75,15 +77,149 @@ function finalizeMap(m) {
   while (q.length) {
     const i = q.pop(), x = i % m.w, y = (i / m.w) | 0;
     [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
-      const nx = x + dx, ny = y + dy; if (getT(m, nx, ny) !== 0) return;
+      const nx = x + dx, ny = y + dy; if (!passable(getT(m, nx, ny))) return;
       const ni = ny * m.w + nx; if (!reach[ni]) { reach[ni] = 1; q.push(ni); }
     });
   }
   m.reach = [];
   for (let i = 0; i < m.t.length; i++) { if (m.t[i] === 0 && !reach[i]) m.t[i] = 1; else if (m.t[i] === 0) m.reach.push(i); }
-  m.pw = m.w * T; m.ph = m.h * T;
+  m.pw = m.w * T; m.ph = m.h * T; m.thp = new Float32Array(m.w * m.h); m.vaults = [];
   return m;
 }
+/* Barricadas de madera en pasillos angostos */
+function addBreakables(m, rng, n) {
+  const cand = m.reach.filter(i => {
+    const x = i % m.w, y = (i / m.w) | 0;
+    if (Math.abs(x - m.sx) < 6 && Math.abs(y - m.sy) < 6) return false;
+    const h = getT(m, x - 1, y) !== 0 && getT(m, x + 1, y) !== 0, v = getT(m, x, y - 1) !== 0 && getT(m, x, y + 1) !== 0;
+    return h !== v;
+  });
+  for (let k = 0; k < n && cand.length; k++) { const i = cand.splice(rng() * cand.length | 0, 1)[0]; m.t[i] = 5; m.thp[i] = 150; }
+  m.reach = m.reach.filter(i => m.t[i] === 0);
+}
+/* Bóvedas: cuartos cerrados con puerta de llave y un cofre dentro */
+function addVaults(m, rng, n) {
+  let tries = 0;
+  while (m.vaults.length < n && tries++ < 400) {
+    const x = 3 + (rng() * (m.w - 9) | 0), y = 3 + (rng() * (m.h - 9) | 0);
+    if (Math.abs(x + 2 - m.sx) < 9 && Math.abs(y + 2 - m.sy) < 7) continue;
+    let ok = true;
+    for (let yy = y - 1; yy <= y + 5 && ok; yy++) for (let xx = x - 1; xx <= x + 5; xx++) if (getT(m, xx, yy) !== 0) { ok = false; break; }
+    if (!ok || m.vaults.some(v => Math.abs(v.x - x) < 9 && Math.abs(v.y - y) < 9)) continue;
+    for (let i = 0; i < 5; i++) { setT(m, x + i, y, 1); setT(m, x + i, y + 4, 1); setT(m, x, y + i, 1); setT(m, x + 4, y + i, 1); }
+    const door = [[x + 2, y], [x + 2, y + 4], [x, y + 2], [x + 4, y + 2]][rng() * 4 | 0];
+    setT(m, door[0], door[1], 4); m.thp[door[1] * m.w + door[0]] = 500;
+    m.vaults.push({ x: x + 1, y: y + 1, door, cx: (x + 2.5) * T, cy: (y + 2.5) * T });
+  }
+  m.reach = m.reach.filter(i => { const tx = i % m.w, ty = (i / m.w) | 0; return m.t[i] === 0 && !m.vaults.some(v => tx >= v.x && tx < v.x + 3 && ty >= v.y && ty < v.y + 3); });
+}
+function drawDoorTile(g, px, py) {
+  g.fillStyle = '#3a3f46'; g.fillRect(px, py, T, T);
+  g.fillStyle = '#6a737d'; g.fillRect(px + 4, py + 4, T - 8, T - 8);
+  g.strokeStyle = '#2a2f36'; g.lineWidth = 2; for (let i = 1; i < 4; i++) { g.beginPath(); g.moveTo(px + 4, py + 4 + i * 10); g.lineTo(px + T - 4, py + 4 + i * 10); g.stroke(); }
+  g.fillStyle = '#ffcc33'; circle(g, px + T / 2, py + T / 2, 7); g.fillStyle = '#3a2a00'; g.fillRect(px + T / 2 - 1.5, py + T / 2 - 2, 3, 7);
+}
+function drawPlanks(g, px, py, rng) {
+  g.fillStyle = 'rgba(0,0,0,.3)'; g.fillRect(px + 5, py + 7, T - 4, T - 6);
+  for (let i = 0; i < 3; i++) { g.fillStyle = jit('#8a6236', 14, rng); g.fillRect(px + 2, py + 4 + i * 14, T - 4, 11); g.fillStyle = '#5a3a1a'; circle(g, px + 7, py + 9 + i * 14, 1.5); circle(g, px + T - 7, py + 9 + i * 14, 1.5); }
+  g.save(); g.translate(px + T / 2, py + T / 2); g.rotate(.6); g.fillStyle = '#6e4a26'; g.fillRect(-T / 2, -4, T, 8); g.restore();
+}
+
+/* ---------- mapas nuevos ---------- */
+function genHospital(rng) {
+  const m = makeGrid(63, 45);
+  for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) if (x % 12 === 0 || y % 11 === 0) setT(m, x, y, 1);
+  for (let y = 0; y < m.h; y++) for (let x = 1; x < m.w - 1; x++) if (y % 11 === 5 || y % 11 === 6) setT(m, x, y, 0); // pasillo central de cada piso
+  for (let k = 1; k < 4; k++) for (let c = 0; c < 5; c++) if (rng() < .8) { const x = c * 12 + 3 + (rng() * 6 | 0); setT(m, x, k * 11, 0); setT(m, x + 1, k * 11, 0); }
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) for (let i = 0; i < 3; i++) if (rng() < .7) setT(m, c * 12 + 2 + i * 3, r * 11 + 2, 2);
+  border(m, 1); m.sx = 30; m.sy = 27; clearArea(m, m.sx, m.sy, 2); return m;
+}
+function genMall(rng) {
+  const m = makeGrid(68, 46); border(m, 1);
+  for (let by = 3; by < m.h - 8; by += 14) for (let bx = 3; bx < m.w - 10; bx += 16) { // tiendas con entrada
+    const w = 9 + (rng() * 3 | 0), h = 7 + (rng() * 3 | 0);
+    for (let y = by; y < by + h; y++) for (let x = bx; x < bx + w; x++) if (y === by || y === by + h - 1 || x === bx || x === bx + w - 1) setT(m, x, y, 1);
+    const dx = bx + 2 + (rng() * (w - 5) | 0); setT(m, dx, by + h - 1, 0); setT(m, dx + 1, by + h - 1, 0); setT(m, dx + 2, by + h - 1, 0);
+    for (let i = 0; i < 4; i++) setT(m, bx + 2 + (rng() * (w - 4) | 0), by + 2 + (rng() * (h - 5) | 0), 2);
+  }
+  scatter(m, rng, 30, 2); scatter(m, rng, 14, 3);
+  m.sx = m.w >> 1; m.sy = m.h >> 1; clearArea(m, m.sx, m.sy, 3); return m;
+}
+function genMetro(rng) {
+  const m = makeGrid(68, 46);
+  m.t.fill(1);
+  const rows = [5, 15, 25, 35];
+  rows.forEach(r => { for (let y = r; y < r + 5; y++) for (let x = 1; x < m.w - 1; x++) setT(m, x, y, 0); });
+  for (let k = 0; k < 7; k++) { const x = 4 + (rng() * (m.w - 10) | 0); for (let y = 5; y < 40; y++) for (let xx = x; xx < x + 3; xx++) setT(m, xx, y, 0); }
+  for (let i = 0; i < 5; i++) { const r = rows[rng() * 4 | 0], x = 6 + (rng() * (m.w - 20) | 0); for (let xx = x; xx < x + 8; xx++) setT(m, xx, r + 1, 2); } // vagones abandonados
+  for (let i = 0; i < 40; i++) { const r = rows[rng() * 4 | 0], x = 2 + (rng() * (m.w - 4) | 0); if (rng() < .5) setT(m, x, r, 2); else setT(m, x, r + 4, 2); } // columnas
+  m.sx = m.w >> 1; m.sy = 27; clearArea(m, m.sx, m.sy, 2); return m;
+}
+function genAirport(rng) {
+  const m = makeGrid(70, 48); border(m, 1);
+  for (let x = 2; x < m.w - 2; x++) for (let y = 2; y < 9; y++) setT(m, x, y, 1); // terminal
+  for (let k = 0; k < 6; k++) { const x = 5 + k * 11; setT(m, x, 8, 0); setT(m, x + 1, 8, 0); for (let y = 3; y < 8; y++) setT(m, x, y, 0), setT(m, x + 1, y, 0); }
+  for (let p = 0; p < 4; p++) { // aviones (en forma de cruz)
+    const cx = 10 + p * 15 + (rng() * 4 | 0), cy = 20 + (rng() * 16 | 0);
+    for (let x = cx - 1; x <= cx + 1; x++) for (let y = cy - 5; y <= cy + 5; y++) setT(m, x, y, 1);
+    for (let x = cx - 5; x <= cx + 5; x++) setT(m, x, cy - 1, 1), setT(m, x, cy, 1);
+    for (let x = cx - 2; x <= cx + 2; x++) setT(m, x, cy + 5, 1);
+  }
+  scatter(m, rng, 40, 2);
+  m.sx = m.w >> 1; m.sy = 14; clearArea(m, m.sx, m.sy, 3); return m;
+}
+function extraThemes() { return {
+  hospital: {
+    name: 'Hospital San Judas', gen: genHospital, floor: '#b7c7c4', wallTop: '#e2e6e4', wallSide: '#7a8a88', dark: 0.5,
+    floorDeco(g, m, x, y, px, py, rng) {
+      g.strokeStyle = 'rgba(0,60,60,.12)'; g.lineWidth = 1; g.strokeRect(px + .5, py + .5, T / 2, T / 2); g.strokeRect(px + T / 2 + .5, py + T / 2 + .5, T / 2 - 1, T / 2 - 1);
+      if (rng() < .04) { g.fillStyle = 'rgba(130,0,0,.35)'; circle(g, px + rng() * T, py + rng() * T, 5 + rng() * 9); }
+    },
+    wallDeco(g, px, py, rng) { if (rng() < .1) { g.fillStyle = '#d02020'; g.fillRect(px + 20, py + 8, 8, 20); g.fillRect(px + 14, py + 14, 20, 8); } },
+    prop(g, px, py, rng) { // camas
+      g.fillStyle = 'rgba(0,0,0,.3)'; g.fillRect(px + 9, py + 5, 32, 42);
+      g.fillStyle = '#f0f0f0'; g.fillRect(px + 7, py + 2, 32, 42); g.fillStyle = jit('#4a7ab0', 15, rng); g.fillRect(px + 7, py + 18, 32, 26);
+      g.fillStyle = '#fff'; rr(g, px + 11, py + 5, 24, 10, 4); g.fill();
+    },
+  },
+  mall: {
+    name: 'Centro Comercial', gen: genMall, floor: '#d8ccb0', wallTop: '#9a8a7a', wallSide: '#5a4e44', dark: 0.3,
+    floorDeco(g, m, x, y, px, py, rng) {
+      if ((x + y) % 2) { g.fillStyle = 'rgba(0,0,0,.05)'; g.fillRect(px, py, T, T); }
+      g.fillStyle = 'rgba(255,255,255,.12)'; g.fillRect(px + 4, py + 4, 10, 3);
+      if (rng() < .03) { g.fillStyle = 'rgba(120,0,0,.3)'; circle(g, px + rng() * T, py + rng() * T, 6 + rng() * 8); }
+    },
+    wallDeco(g, px, py, rng) { if (rng() < .15) { g.fillStyle = ['#e04a4a', '#3a9ae0', '#e0b030', '#40b060'][rng() * 4 | 0]; g.fillRect(px + 4, py + 10, T - 8, 12); } },
+    prop(g, px, py, rng) { // kioscos y bancas
+      if (rng() < .5) { g.fillStyle = 'rgba(0,0,0,.3)'; g.fillRect(px + 6, py + 8, 40, 38); g.fillStyle = jit('#b05a30', 20, rng); g.fillRect(px + 4, py + 4, 40, 38); g.fillStyle = '#f0e0c0'; g.fillRect(px + 8, py + 8, 32, 8); }
+      else { g.fillStyle = '#5a3a20'; g.fillRect(px + 4, py + 18, 40, 12); g.fillStyle = '#7a5a30'; g.fillRect(px + 4, py + 16, 40, 4); }
+    },
+    tree(g, px, py, rng) { g.fillStyle = '#7a6a5a'; circle(g, px + T / 2, py + T / 2, 16); drawTree(g, px, py, rng, false); },
+  },
+  metro: {
+    name: 'Túneles del Metro', gen: genMetro, floor: '#4a4a4e', wallTop: '#2e2e33', wallSide: '#18181c', dark: 0.72,
+    floorDeco(g, m, x, y, px, py, rng) {
+      if (getT(m, x, y - 1) !== 0 && getT(m, x, y - 1) !== 2 || getT(m, x, y + 1) === 1) { g.fillStyle = 'rgba(200,180,60,.35)'; g.fillRect(px, getT(m, x, y - 1) === 1 ? py : py + T - 6, T, 6); }
+      if (getT(m, x - 1, y) !== 1 && getT(m, x + 1, y) !== 1 && getT(m, x, y - 2) === 1 && getT(m, x, y + 3) === 1) { g.fillStyle = '#6a5a4a'; g.fillRect(px, py + 14, T, 4); g.fillRect(px, py + 30, T, 4); }
+      if (rng() < .3) { g.fillStyle = 'rgba(80,60,40,.5)'; g.fillRect(px + rng() * 30, py + 18, 14, 12); }
+    },
+    wallDeco(g, px, py, rng) { if (rng() < .08) { g.fillStyle = 'rgba(255,240,180,.5)'; g.fillRect(px + 10, py + 6, 28, 5); } },
+    prop(g, px, py, rng) { g.fillStyle = 'rgba(0,0,0,.4)'; g.fillRect(px + 6, py + 6, T - 4, T - 4); g.fillStyle = jit('#5a7a9a', 20, rng); g.fillRect(px + 2, py + 2, T - 4, T - 4); g.fillStyle = 'rgba(200,230,255,.35)'; g.fillRect(px + 8, py + 8, T - 16, 10); },
+  },
+  aeropuerto: {
+    name: 'Aeropuerto', gen: genAirport, floor: '#5a5d60', wallTop: '#c8ccd0', wallSide: '#70757a', dark: 0.25,
+    floorDeco(g, m, x, y, px, py, rng) {
+      if (y % 12 === 0) { g.fillStyle = '#e0c030'; g.fillRect(px + 6, py + T / 2 - 2, T - 12, 4); }
+      if (x % 15 === 0 && y > 9) { g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(px + T / 2 - 2, py + 4, 4, T - 8); }
+      if (rng() < .05) { g.fillStyle = 'rgba(0,0,0,.25)'; circle(g, px + rng() * T, py + rng() * T, 6 + rng() * 12); }
+    },
+    wallDeco(g, px, py, rng) { if (rng() < .2) { g.fillStyle = 'rgba(100,170,230,.6)'; g.fillRect(px + 3, py + 8, T - 6, 14); } },
+    prop(g, px, py, rng) { // carritos de equipaje
+      g.fillStyle = 'rgba(0,0,0,.3)'; g.fillRect(px + 8, py + 10, 36, 32); g.fillStyle = '#9a9a9a'; g.fillRect(px + 5, py + 7, 36, 32);
+      const c = ['#a0402a', '#2a5a9a', '#3a7a3a', '#c0a030']; for (let i = 0; i < 3; i++) { g.fillStyle = c[rng() * 4 | 0]; rr(g, px + 8 + i * 11, py + 11, 9, 22, 2); g.fill(); }
+    },
+  },
+}; }
 
 /* ---------- dibujo de los mapas ---------- */
 function adjWall(m, x, y) { return getT(m, x + 1, y) === 1 || getT(m, x - 1, y) === 1 || getT(m, x, y + 1) === 1 || getT(m, x, y - 1) === 1; }
@@ -207,13 +343,18 @@ function renderMap(m, th, rng) {
       if (th.wallDeco && below) th.wallDeco(g, px, py, rng);
     } else if (v === 2) th.prop(g, px, py, rng);
     else if (v === 3) (th.tree || ((g2, a, b, r) => drawTree(g2, a, b, r, false)))(g, px, py, rng);
+    else if (v === 4) drawDoorTile(g, px, py);
+    else if (v === 5) drawPlanks(g, px, py, rng);
   }
   return c;
 }
 function renderMini(m) {
   const s = 3, c = document.createElement('canvas'); c.width = m.w * s; c.height = m.h * s; const g = c.getContext('2d');
   g.fillStyle = 'rgba(30,40,30,.85)'; g.fillRect(0, 0, c.width, c.height);
-  for (let i = 0; i < m.t.length; i++) if (m.t[i]) { g.fillStyle = m.t[i] === 1 ? '#8a8f86' : '#566050'; g.fillRect((i % m.w) * s, ((i / m.w) | 0) * s, s, s); }
+  const cols = { 1: '#8a8f86', 2: '#566050', 3: '#566050', 4: '#ffcc33', 5: '#a07040' };
+  for (let i = 0; i < m.t.length; i++) if (m.t[i]) { g.fillStyle = cols[m.t[i]]; g.fillRect((i % m.w) * s, ((i / m.w) | 0) * s, s, s); }
   return c;
 }
 
+
+Object.assign(THEMES, extraThemes()); // agrega hospital, centro comercial, metro y aeropuerto

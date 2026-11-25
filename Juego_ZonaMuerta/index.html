@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Zona Muerta</title>
-<meta name="description" content="Juego de zombis con vista desde arriba: 9 niveles, 9 jefes, 7 armas, tienda y compañeros.">
+<meta name="description" content="Juego de zombis con vista desde arriba: 13 niveles, 9 mapas, 10 jefes, 9 armas, supervivencia, tienda y compañeros.">
 <meta name="theme-color" content="#12180e">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -57,6 +57,25 @@
   .card b { color: #fff; font-size: 15px; } .card small { color: #bbb; font-size: 12px; line-height: 1.3; flex: 1; } .card i { color: #9bd14b; font-size: 12px; font-style: normal; }
   .card button { width: 100%; margin: 4px 0 0; padding: 7px; font-size: 15px; }
   .card .tag { color: #9bd14b; font-weight: bold; font-size: 13px; text-align: center; padding: 7px 0 0; }
+  .card.wide { grid-column: span 2; } .card .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .card .row button { width: auto; min-width: 90px; margin: 3px 0; padding: 5px 8px; font-size: 13px; }
+  button.small { padding: 5px; font-size: 13px; }
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .menu-grid button { width: 100%; margin: 0; font-size: 17px; padding: 11px 6px; }
+  .menu-grid button.big { font-size: 19px; padding: 14px 6px; }
+  button small { display: block; font-weight: normal; font-size: 12px; opacity: .85; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 4px 0 10px; }
+  .tabs button { width: auto; margin: 0; padding: 7px 12px; font-size: 14px; background: #2a3a1a; }
+  .tabs button.on { background: linear-gradient(#6d9a32, #3f6f13); border-color: #c8e86b; }
+  .xpbar { height: 14px; background: #1a2a3a; border: 1px solid #7fd0ff; border-radius: 7px; overflow: hidden; margin: 6px auto; max-width: 420px; }
+  .xpbar div { height: 100%; background: linear-gradient(90deg, #3fa0e0, #7fd0ff); }
+  label.opt { display: flex; justify-content: space-between; align-items: center; gap: 14px; max-width: 420px; margin: 8px auto; color: #ddd; font-weight: bold; }
+  label.opt input { flex: 1; max-width: 200px; accent-color: #9bd14b; }
+  table.rec { width: 100%; max-width: 560px; } table.rec th { color: #9bd14b; text-align: left; padding: 4px 10px; } table.rec td { padding: 4px 10px; }
+  .bigstars { font-size: 46px; color: #ffd34d; letter-spacing: 6px; text-shadow: 0 0 12px rgba(255,200,0,.5); }
+  .grid .st { color: #ffd34d; font-size: 14px; letter-spacing: 2px; }
+  p.story { font-size: 18px; color: #e8e8d8; font-style: italic; max-width: 600px; margin: 14px auto; }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 6px; vertical-align: -2px; border: 1px solid #fff; }
   /* pantallas bajitas (celular en horizontal) */
   @media (max-height: 520px) {
     .panel { padding: 12px 22px; max-height: 94vh; overflow-y: auto; }
@@ -66,6 +85,9 @@
     .grid button { padding: 7px 4px; font-size: 13px; }
     .shop { max-height: 52vh; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; } .card { padding: 6px 8px; } .coins { margin: 2px 0 6px; font-size: 15px; }
     td { padding: 2px 10px; font-size: 13px; } p { margin: 4px 0; font-size: 13px; } .stats { font-size: 15px; margin: 8px 0; }
+    .menu-grid { gap: 6px; margin: 6px 0; } .menu-grid button, .menu-grid button.big { font-size: 14px; padding: 7px 4px; }
+    .tabs button { padding: 5px 8px; font-size: 12px; } p.story { font-size: 14px; margin: 6px auto; } .bigstars { font-size: 32px; }
+    .card.wide { grid-column: span 1; } label.opt { margin: 4px auto; font-size: 14px; }
   }
 </style>
 </head>
@@ -75,6 +97,9 @@
 <div id="rotate"><span>📱↻</span>Gira tu celular<br>para jugar en horizontal</div>
 <script src="core.js"></script>
 <script src="mapas.js"></script>
+<script src="datos.js"></script>
+<script src="audio.js"></script>
 <script src="game.js"></script>
+<script src="ui.js"></script>
 </body>
 </html>

@@ -82,18 +82,24 @@ Luego presiona <b>Ctrl + P</b> y elige <b>"Guardar como PDF"</b> o tu impresora.
 
   <h2>1. Descripción del caso práctico</h2>
   <p><b>Zona Muerta</b> es un videojuego de acción y supervivencia con <b>vista desde arriba</b> (top-down) en tercera persona.
-  El jugador debe abrirse paso a través de una invasión zombi en <b>9 niveles</b> distribuidos en <b>5 mapas diferentes</b>,
-  usando <b>7 armas</b>, comprando equipo con las <b>monedas</b> que gana y venciendo a un <b>jefe al final de cada nivel</b>.</p>
+  El jugador debe abrirse paso a través de una invasión zombi en un <b>modo historia de 13 niveles</b> distribuidos en <b>9 mapas</b>, con misiones de eliminar, rescatar, defender y escapar.
+  Incluye un <b>modo supervivencia</b> de oleadas infinitas, <b>9 armas</b>, tienda con mejoras, <b>compañeros</b>, logros y niveles de personaje.</p>
   <table class="t">
     <tr><th>Característica</th><th>Detalle</th></tr>
     <tr><td>Género</td><td>Acción / Disparos / Supervivencia</td></tr>
     <tr><td>Perspectiva</td><td>Cenital (vista desde arriba), tercera persona</td></tr>
-    <tr><td>Mapas</td><td>Ciudad Abandonada, Bosque Sombrío, Laboratorio X-13, Base Militar, Cementerio Olvidado</td></tr>
-    <tr><td>Armas</td><td>Pistola (munición infinita), Escopeta, Rifle de Asalto, Francotirador y las especiales: Lanzallamas, Lanzagranadas y Minigun</td></tr>
-    <tr><td>Enemigos</td><td>Zombi normal, corredor, tanque (embiste), vomitador (lanza ácido) y perros infectados (en manada)</td></tr>
-    <tr><td>Jefes</td><td>El Carnicero, Alfa Rabioso, Experimento X-13, Sargento Podrido, El Sepulturero y el Rey Zombi</td></tr>
-    <tr><td>Tienda</td><td>Armas, armaduras (3 niveles), vida máxima, botiquines, adrenalina y hasta 2 compañeros que pelean contigo</td></tr>
-    <tr><td>Sonido</td><td>Disparos de cada arma, recarga, daño, armadura, gruñidos, ladridos, vómito, explosiones y latidos con poca vida</td></tr>
+    <tr><td>Modos</td><td>Historia (13 niveles con diálogos) y Supervivencia (oleadas infinitas con récord)</td></tr>
+    <tr><td>Misiones</td><td>Eliminar zombis, rescatar sobrevivientes, defender el generador y escapar en helicóptero</td></tr>
+    <tr><td>Mapas</td><td>Ciudad, Hospital, Bosque, Centro Comercial, Laboratorio X-13, Metro, Base Militar, Aeropuerto y Cementerio</td></tr>
+    <tr><td>Clima</td><td>Lluvia, niebla, tormenta con relámpagos y ciclo de día y noche</td></tr>
+    <tr><td>Armas</td><td>Pistola, Escopeta, Rifle, Francotirador, Lanzallamas, Lanzagranadas, Minigun, machete, granadas y 2 legendarias (Rayo Láser y Ballesta Explosiva)</td></tr>
+    <tr><td>Trampas</td><td>Torretas automáticas, minas, barricadas y barriles explosivos</td></tr>
+    <tr><td>Enemigos</td><td>Zombi normal, corredor, tanque (embiste), vomitador (ácido), perros infectados, explosivo, gritón (llama refuerzos) y blindado (casco)</td></tr>
+    <tr><td>Jefes</td><td>10 jefes con 2 fases (se enfurecen a mitad de vida): Carnicero, Enfermera, Alfa, Guardia, Experimento X-13, Conductor, Sargento, Piloto, Sepulturero y Rey Zombi</td></tr>
+    <tr><td>Progreso</td><td>Monedas, tienda, mejoras de armas, 7 skins, experiencia con 6 habilidades, 20 logros, estrellas por nivel, récords, bóvedas con llave y cofres</td></tr>
+    <tr><td>Compañeros</td><td>Soldado, médica, francotirador, escopetera y el perro Max; reciben órdenes (seguir, quedarse, atacar)</td></tr>
+    <tr><td>Sonido</td><td>Música dinámica, disparos de cada arma, recarga, daño, gruñidos, gritos, ladridos, lluvia, truenos y explosiones (generados por código)</td></tr>
+    <tr><td>Opciones</td><td>Volumen de música y efectos, dificultad (fácil, normal, difícil), autoapuntado, vibración y sensibilidad del joystick</td></tr>
     <tr><td>Tecnología</td><td>HTML5 + JavaScript (se ejecuta en el navegador)</td></tr>
     <tr><td>Clasificación sugerida</td><td>Adolescentes (violencia de fantasía)</td></tr>
   </table>
@@ -122,8 +128,11 @@ Luego presiona <b>Ctrl + P</b> y elige <b>"Guardar como PDF"</b> o tu impresora.
 └── Juego_ZonaMuerta/
     ├── index.html      ← archivo para abrir el juego
     ├── core.js         ← sonidos y funciones básicas (no borrar)
-    ├── mapas.js        ← los 5 mapas del juego (no borrar)
-    ├── game.js         ← programa del juego: armas, zombis, jefes, tienda (no borrar)
+    ├── mapas.js        ← los 9 mapas del juego (no borrar)
+    ├── datos.js        ← armas, zombis, jefes, niveles y logros (no borrar)
+    ├── audio.js        ← música y efectos de sonido (no borrar)
+    ├── game.js         ← lógica del juego (no borrar)
+    ├── ui.js           ← menús, tienda y controles (no borrar)
     ├── manifest.json   ← datos de la app para instalarla en el celular (PWA)
     ├── sw.js           ← permite jugar sin Internet
     ├── icon-192.png    ← ícono de la app
@@ -184,7 +193,10 @@ Luego presiona <b>Ctrl + P</b> y elige <b>"Guardar como PDF"</b> o tu impresora.
     <tr><td>Mouse</td><td>Apuntar</td></tr>
     <tr><td>Clic izquierdo</td><td>Disparar (mantener presionado)</td></tr>
     <tr><td><code>R</code></td><td>Recargar</td></tr>
-    <tr><td><code>1</code> a <code>7</code> o rueda del mouse</td><td>Cambiar de arma (solo las que compraste)</td></tr>
+    <tr><td><code>1</code> a <code>9</code> o rueda del mouse</td><td>Cambiar de arma (solo las que tienes)</td></tr>
+    <tr><td><code>V</code> o clic derecho · <code>G</code></td><td>Machete · Lanzar granada</td></tr>
+    <tr><td><code>C</code> · <code>X</code> · <code>Z</code></td><td>Colocar torreta · mina · barricada</td></tr>
+    <tr><td><code>O</code></td><td>Dar orden a los compañeros (síganme / quietos / ataquen)</td></tr>
     <tr><td><code>Shift</code></td><td>Activar / desactivar correr. Si se acaba la energía vuelves a caminar; presiona Shift otra vez para correr</td></tr>
     <tr><td><code>Q</code> · <code>E</code></td><td>Usar botiquín · Usar adrenalina</td></tr>
     <tr><td><code>P</code> o <code>Esc</code></td><td>Pausa</td></tr>
@@ -196,7 +208,8 @@ Luego presiona <b>Ctrl + P</b> y elige <b>"Guardar como PDF"</b> o tu impresora.
     <tr><th>Control</th><th>Acción</th></tr>
     <tr><td>Mitad izquierda de la pantalla</td><td>Joystick para moverse</td></tr>
     <tr><td>Botón CORRER</td><td>Activa / desactiva correr</td></tr>
-    <tr><td>Botones 🩹 y ⚡</td><td>Usar botiquín y adrenalina</td></tr>
+    <tr><td>Botones 🩹 ⚡ 💣</td><td>Botiquín, adrenalina y granada</td></tr>
+    <tr><td>Botones 🔪 · 🛠 / ⟳ · 📢</td><td>Machete · Colocar trampa / elegir cuál · Orden a compañeros</td></tr>
     <tr><td>Mitad derecha / botón FUEGO</td><td>Disparar (arrastra el dedo para apuntar a mano)</td></tr>
     <tr><td>Botón R</td><td>Recargar</td></tr>
     <tr><td>Botón ⇄</td><td>Cambiar de arma</td></tr>
@@ -204,8 +217,9 @@ Luego presiona <b>Ctrl + P</b> y elige <b>"Guardar como PDF"</b> o tu impresora.
   </table>
   <p><b>Autoapuntado:</b> si está activado (en el menú principal), el personaje apunta solo al zombi más cercano que pueda ver
   y lo marca con una mira roja. Está activado de inicio y se puede apagar en el menú.</p>
-  <p><b>Objetivo:</b> elimina la cantidad de zombis indicada para pasar de nivel. Recoge <b>botiquines</b> (cruz roja) para recuperar vida
-  y <b>cajas de munición</b> para obtener balas. La escopeta se desbloquea en el nivel 2 y el rifle en el nivel 4.
+  <p><b>Objetivo:</b> en cada nivel cumple la misión (eliminar zombis, rescatar sobrevivientes o defender el generador) y después vence al <b>jefe</b>. En el último nivel escapa en el <b>helicóptero</b>.
+  Recoge <b>botiquines</b>, <b>munición</b>, <b>monedas</b> y <b>llaves 🔑</b> para abrir bóvedas con cofres. Dispara a los <b>barriles rojos</b> para explotar grupos de zombis.
+  Con las monedas compra armas, mejoras, trampas y compañeros en la <b>tienda</b>. Al subir de nivel ganas puntos de habilidad (menú → Personaje).
   El progreso se guarda automáticamente en el navegador.</p>
 
   <h2>7. Solución de problemas</h2>
